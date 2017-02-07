@@ -1,0 +1,43 @@
+{
+  "name": "ei",
+  "version": "1.0.0",
+  "description": "Novel-game like image generator",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --config webpack.production.config.js",
+    "start": "./node_modules/.bin/webpack-dev-server",
+    "lint": "eslint --fix --ext .js --ext .jsx ./src/ || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mayok/ei.git"
+  },
+  "author": "Naohiro Iwamoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mayok/ei/issues"
+  },
+  "homepage": "https://github.com/mayok/ei#readme",
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0",
+    "styled-components": "^1.4.3"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
+  }
+}

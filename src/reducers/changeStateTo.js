@@ -1,6 +1,6 @@
 import { CHANGE_STATE_TO } from '../actions';
 
-const changeStateTo = (state = 0, action) => {
+const changeStateTo = (state = false, action) => {
   switch (action.type) {
     case CHANGE_STATE_TO:
       return action.bool;

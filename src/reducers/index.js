@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import phase from './phase';
+import changeStateTo from './changeStateTo';
 
 const rootReducer = combineReducers({
-  phase,
+  changeStateTo,
 });
 
 export default rootReducer;

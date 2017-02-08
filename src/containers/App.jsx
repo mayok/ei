@@ -11,12 +11,21 @@ const Container = styled.div`
 `;
 const ImageContainer = styled.div`
 `;
+const TextContainer = styled.div`
+`;
 const ButtonGroup = styled.div`
 `;
-const TextContainer = styled.div`
+const Input = styled.input`
+  display: none;
+`;
+const Button = styled.button`
 `;
 
 class App extends React.Component {
+  handleClick() {
+    document.getElementById('dummy').click();
+  }
+
   handleChange() {
     const { dispatch } = this.props;
 
@@ -45,8 +54,16 @@ class App extends React.Component {
       <Container>
         <ImageContainer>
           <ButtonGroup>
-            <input type="file" id="dummy" onChange={() => { this.handleChange(); }} />
-            <button>upload image (not work now...)</button>
+            <Input
+              type="file"
+              id="dummy"
+              onChange={() => { this.handleChange(); }}
+            />
+            <Button
+              onClick={() => { this.handleClick(); }}
+            >
+              upload image
+            </Button>
           </ButtonGroup>
         </ImageContainer>
 

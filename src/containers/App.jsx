@@ -166,14 +166,14 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  active: React.PropTypes.func.isRequired,
+  active: React.PropTypes.bool.isRequired,
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
   dispatch: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { active, image } = state;
+  const { changeStateTo: active, image } = state;
   const {
     width,
     height,

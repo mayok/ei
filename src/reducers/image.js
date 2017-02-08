@@ -8,8 +8,8 @@ const image = (state = {
     case IMAGE_SIZE:
       return {
         ...state,
-        width: [action.hash].width,
-        height: [action.hash].height,
+        width: action.hash.width,
+        height: action.hash.height,
       };
     default:
       return state;

@@ -17,8 +17,14 @@ const ImageContainer = styled.div`
 `;
 const Canvas = styled.div`
   margin: 0 auto;
-  width: ${function width(p) { return `${p.width}px`; }};
-  height: ${function height(p) { return `${p.height}px`; }};
+  width: ${function width(p) {
+    return p.width > 960 ? '960px' : `${p.width}px`;
+  }};
+  height: ${function height(p) {
+    return p.width > 960
+      ? `${p.height / (p.width / 960)}px`
+      : `${p.height}px`;
+  }};
 `;
 const ButtonGroup = styled.div`
 `;
@@ -47,21 +53,34 @@ const Img = styled.img`
 const TextWindow = styled.div`
   position: absolute;
   bottom: 0;
-  width: ${function width(p) { return `${p.width}px`; }};
-  height: ${function height(p) { return `${p.height / 4.2}px`; }};
+  width: ${function width(p) {
+    return p.width > 960 ? '960px' : `${p.width}px`;
+  }};
+  height: ${function height(p) {
+    return p.width > 960
+      ? `${p.height / (p.width / 960) / 3.9}px`
+      : `${p.height}px`;
+  }};
   background: ${function background(p) { return p.background; }};
   opacity: ${function opacity(p) { return p.opacity; }};
 `;
 const TextBox = styled.div`
   position: absolute;
   bottom: 0;
-  width: ${function width(p) { return `${p.width}px`; }};
-  height: ${function height(p) { return `${p.height / 4.2}px`; }};
-  color: white;
+  width: ${function width(p) {
+    return p.width > 960 ? '960px' : `${p.width}px`;
+  }};
+  height: ${function height(p) {
+    return p.width > 960
+      ? `${p.height / (p.width / 960) / 3.9}px`
+      : `${p.height}px`;
+  }};
 `;
 const Name = styled.span`
+  color: white;
 `;
 const Message = styled.span`
+  color: white;
 `;
 const Modal = styled.div`
 `;
@@ -78,7 +97,7 @@ class App extends React.Component {
       const _ = window.URL || window.webkitURL;
       const img = new Image();
       img.onload = () => {
-        dispatch(imageSize({ width: this.width, height: this.height }));
+        dispatch(imageSize({ width: img.width, height: img.height }));
       };
       img.src = _.createObjectURL(oFiles[0]);
 
@@ -103,19 +122,22 @@ class App extends React.Component {
     const handleClick = () => {
       document.getElementById('dummy').click();
     };
-    const screenshot = (e) => {
+    const screenshot = () => {
+      const e = document.getElementById('canvas');
       html2canvas(e, { onrendered(c) {
         const d = c.toDataURL();
         document.getElementById('img').src = d;
       } });
     };
-    const b = () => {
+    const b = (e) => {
       // hide modal
-      document.getElementById('img').src = '';
+      if (e.target.nodeName !== 'IMG') {
+        document.getElementById('img').src = '';
+      }
     };
 
     return (
-      <Background onClick={() => { b(); }}>
+      <Background onClick={(e) => { b(e); }}>
         <Container>
           <ButtonGroup>
             <Input
@@ -124,7 +146,7 @@ class App extends React.Component {
               onChange={() => { this.handleChange(); }}
             />
             <Button onClick={() => { handleClick(); }} active={active}>
-              upload image
+              画像を選択してね
             </Button>
           </ButtonGroup>
 
@@ -136,8 +158,8 @@ class App extends React.Component {
                   <TextWindow
                     width={width}
                     height={height}
-                    opacity={'0.6'}
-                    background={'white'}
+                    opacity={'0.1'}
+                    background={'#EF75BC'}
                   />
                   <TextBox
                     width={width}
@@ -152,7 +174,7 @@ class App extends React.Component {
           </ImageContainer>
 
           {active &&
-            <Button onClick={(e) => { screenshot(e); }} primary>
+            <Button onClick={() => { screenshot(); }} primary>
               完成！
             </Button>
           }

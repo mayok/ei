@@ -58,13 +58,14 @@ const TextWindow = styled.div`
   }};
   height: ${function height(p) {
     return p.width > 960
-      ? `${p.height / (p.width / 960) / 3.9}px`
+      ? `${p.height / (p.width / 960) / 4.2}px`
       : `${p.height}px`;
   }};
   background: ${function background(p) { return p.background; }};
   opacity: ${function opacity(p) { return p.opacity; }};
 `;
-const TextBox = styled.div`
+const TextBoxWrapper = styled.div`
+  padding: 1em 0 0;
   position: absolute;
   bottom: 0;
   width: ${function width(p) {
@@ -72,15 +73,48 @@ const TextBox = styled.div`
   }};
   height: ${function height(p) {
     return p.width > 960
-      ? `${p.height / (p.width / 960) / 3.9}px`
+      ? `${p.height / (p.width / 960) / 4.2}px`
       : `${p.height}px`;
   }};
 `;
-const Name = styled.span`
-  color: white;
+const TextBox = styled.div`
+  width: 50%;
+  margin: 0 auto;
 `;
-const Message = styled.span`
+const Name = styled.input`
+  display: block;
+  margin: .5em 0 .1em;
+  max-width: 200px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0);
   color: white;
+  text-overflow: ellipsis;
+  text-shadow: 2px 2px #393939;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Noto Sans Japanese";
+  font-size: 1.8rem;
+  font-weight: 700;
+
+`;
+const Message = styled.textarea`
+  display: block;
+  width: 100%;
+  height: 7.5rem;
+  line-height: 1.45;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0);
+  color: white;
+  text-shadow: 2px 2px #393939;
+  overflow-wrap: break-word;
+  font-family: "Noto Sans Japanese";
+  font-size: 1.8rem;
+  font-weight: 700;
+  resize: none;
+  overflow: hidden;
+
 `;
 const Modal = styled.div`
 `;
@@ -161,13 +195,15 @@ class App extends React.Component {
                     opacity={'0.1'}
                     background={'#EF75BC'}
                   />
-                  <TextBox
+                  <TextBoxWrapper
                     width={width}
                     height={height}
                   >
-                    <Name />
-                    <Message />
-                  </TextBox>
+                    <TextBox>
+                      <Name placeholder="名前" />
+                      <Message placeholder="テキスト" />
+                    </TextBox>
+                  </TextBoxWrapper>
                 </div>
               }
             </Canvas>

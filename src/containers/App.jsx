@@ -59,7 +59,7 @@ const TextWindow = styled.div`
   height: ${function height(p) {
     return p.width > 960
       ? `${p.height / (p.width / 960) / 4.2}px`
-      : `${p.height}px`;
+      : `${p.height / 4.2}px`;
   }};
   background: ${function background(p) { return p.background; }};
   opacity: ${function opacity(p) { return p.opacity; }};
@@ -74,7 +74,7 @@ const TextBoxWrapper = styled.div`
   height: ${function height(p) {
     return p.width > 960
       ? `${p.height / (p.width / 960) / 4.2}px`
-      : `${p.height}px`;
+      : `${p.height / 4.2}px`;
   }};
 `;
 const TextBox = styled.div`

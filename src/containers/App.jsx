@@ -1,123 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { changeStateTo, imageSize } from '../actions';
-
-const Background = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-const Container = styled.div`
-  width: 80%;
-  margin: 0 auto;
-  padding: 10px 0 0;
-`;
-const ImageContainer = styled.div`
-  position: relative;
-`;
-const Canvas = styled.div`
-  margin: 0 auto;
-  width: ${function width(p) {
-    return p.width > 960 ? '960px' : `${p.width}px`;
-  }};
-  height: ${function height(p) {
-    return p.width > 960
-      ? `${p.height / (p.width / 960)}px`
-      : `${p.height}px`;
-  }};
-`;
-const ButtonGroup = styled.div`
-`;
-const Input = styled.input`
-  display: none;
-`;
-const Button = styled.button`
-  display: ${function display(p) {
-    return p.active ? 'none' : 'block';
-  }};
-  background: ${function bg(p) {
-    return p.primary ? '#337ab7' : 'palevioletred';
-  }};
-  color: white;
-  font-size: 1em;
-  margin: 0 auto;
-  padding: .25em 1em;
-  border: 2px solid ${function border(p) {
-    return p.primary ? '#337ab7' : 'palevioletred';
-  }};
-  border-radius: 3px;
-`;
-const Img = styled.img`
-  max-width: 960px;
-`;
-const TextWindow = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: ${function width(p) {
-    return p.width > 960 ? '960px' : `${p.width}px`;
-  }};
-  height: ${function height(p) {
-    return p.width > 960
-      ? `${p.height / (p.width / 960) / 4.2}px`
-      : `${p.height / 4.2}px`;
-  }};
-  background: ${function background(p) { return p.background; }};
-  opacity: ${function opacity(p) { return p.opacity; }};
-`;
-const TextBoxWrapper = styled.div`
-  padding: 1em 0 0;
-  position: absolute;
-  bottom: 0;
-  width: ${function width(p) {
-    return p.width > 960 ? '960px' : `${p.width}px`;
-  }};
-  height: ${function height(p) {
-    return p.width > 960
-      ? `${p.height / (p.width / 960) / 4.2}px`
-      : `${p.height / 4.2}px`;
-  }};
-`;
-const TextBox = styled.div`
-  width: 50%;
-  margin: 0 auto;
-`;
-const Name = styled.input`
-  display: block;
-  margin: .5em 0 .1em;
-  max-width: 200px;
-  border: none;
-  outline: none;
-  background: rgba(255,255,255,0);
-  color: white;
-  text-overflow: ellipsis;
-  text-shadow: 2px 2px #393939;
-  overflow: hidden;
-  white-space: nowrap;
-  font-family: "Noto Sans Japanese";
-  font-size: 1.8rem;
-  font-weight: 700;
-
-`;
-const Message = styled.textarea`
-  display: block;
-  width: 100%;
-  height: 7.5rem;
-  line-height: 1.45;
-  border: none;
-  outline: none;
-  background: rgba(255,255,255,0);
-  color: white;
-  text-shadow: 2px 2px #393939;
-  overflow-wrap: break-word;
-  font-family: "Noto Sans Japanese";
-  font-size: 1.8rem;
-  font-weight: 700;
-  resize: none;
-  overflow: hidden;
-
-`;
-const Modal = styled.div`
-`;
+import {
+  container,
+  button,
+  input,
+  textarea,
+  textWindow,
+  textBox,
+  canvas,
+} from '../styles/style';
 
 class App extends React.Component {
 
@@ -151,8 +43,6 @@ class App extends React.Component {
   }
 
   render() {
-    const { active, width, height } = this.props;
-
     const handleClick = () => {
       document.getElementById('dummy').click();
     };
@@ -170,55 +60,107 @@ class App extends React.Component {
       }
     };
 
-    return (
-      <Background onClick={(e) => { b(e); }}>
-        <Container>
-          <ButtonGroup>
-            <Input
-              type="file"
-              id="dummy"
-              onChange={() => { this.handleChange(); }}
-            />
-            <Button onClick={() => { handleClick(); }} active={active}>
+    const m = (...rest) => {
+      let res = {};
+      rest.forEach((v) => {
+        if (v) {
+          res = Object.assign({}, res, v);
+        }
+      });
+      return res;
+    };
+
+    return React.createElement('div', {
+      style: { width: '100%', height: '100%' },
+      onClick(e) { b(e); },
+    },
+      <div style={container.normal}>
+        <div className="button-group">
+          <input
+            style={input.hidden}
+            type="file"
+            id="dummy"
+            onChange={() => { this.handleChange(); }}
+          />
+          <button
+            style={m(
+                button.palev,
+                this.props.active && { display: 'none' },
+              )}
+            onClick={() => { handleClick(); }}
+          >
               画像を選択してね
-            </Button>
-          </ButtonGroup>
+            </button>
+        </div>
 
-          <ImageContainer>
-            <Canvas id="canvas" width={width} height={height}>
-              <Img id="image" src="" alt="" />
-              {active &&
-                <div>
-                  <TextWindow
-                    width={width}
-                    height={height}
-                    opacity={'0.1'}
-                    background={'#EF75BC'}
-                  />
-                  <TextBoxWrapper
-                    width={width}
-                    height={height}
-                  >
-                    <TextBox>
-                      <Name placeholder="名前" />
-                      <Message placeholder="テキスト" />
-                    </TextBox>
-                  </TextBoxWrapper>
+        <div style={container.relative}>
+          <div
+            style={m(
+              canvas,
+              this.props.width > 960
+                ? {
+                  height: `${this.props.height / (this.props.width / 960)}`,
+                }
+                : {
+                  width: this.props.width,
+                  height: this.props.height,
+                },
+            )}
+            id="canvas"
+          >
+            <img style={{ maxWidth: '960px' }} id="image" src="" alt="" />
+            {this.props.active &&
+            <div>
+              <div
+                style={m(
+                  textWindow,
+                  { height: `${this.props.height / 4.2}` },
+                  this.props.width < 960 &&
+                    { width: this.props.width },
+                )}
+              />
+              <div
+                style={m(
+                  textBox,
+                  { height: `${this.props.height / 4.2}` },
+                  this.props.width < 960 &&
+                    { width: this.props.width },
+                )}
+              >
+                <div
+                  style={{
+                    width: '50%',
+                    margin: '0 auto',
+                  }}
+                >
+                  <input style={input.name} placeholder="名前" />
+                  <textarea style={textarea} placeholder="テキスト" />
                 </div>
+              </div>
+            </div>
               }
-            </Canvas>
-          </ImageContainer>
+          </div>
+        </div>
 
-          {active &&
-            <Button onClick={() => { screenshot(); }} primary>
+        {this.props.active &&
+        <button
+          style={button.primary}
+          onClick={() => { screenshot(); }}
+        >
               完成！
-            </Button>
+            </button>
           }
-          <Modal>
-            <img id="img" src="" alt="" />
-          </Modal>
-        </Container>
-      </Background>
+        <div
+          style={m(
+          container.normal,
+          this.props.width > 960
+            ? { width: 960 }
+            : { width: this.props.width },
+        )}
+        >
+          <img id="img" src="" alt="" />
+        </div>
+      </div>,
     );
   }
 }
